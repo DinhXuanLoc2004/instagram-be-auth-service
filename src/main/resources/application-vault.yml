@@ -1,0 +1,17 @@
+spring:
+  config:
+    import:
+    - vault://
+  cloud:
+    vault:
+      scheme: http
+      host: vault-server
+      port: 8200
+      authentication: token
+      token: ${TOKEN}
+      database:
+        enabled: true
+        backend: database
+        role: auth-db-role
+        username-property: spring.datasource.username
+        password-property: spring.datasource.password

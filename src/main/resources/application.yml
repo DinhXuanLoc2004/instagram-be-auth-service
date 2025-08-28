@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: auth-service
+  profiles:
+    active:
+    - vault
+  config:
+    import: optional:configserver:http://config-server:8001
+  cloud:
+    config:
+      fail-fast: true
+  datasource:
+    url: jdbc:mysql://auth-db:3306/auth-db
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+

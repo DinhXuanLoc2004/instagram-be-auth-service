@@ -1,0 +1,10 @@
+# syntax=docker/dockerfile:experimental
+
+FROM maven:3.9.11-eclipse-temurin-21
+WORKDIR /app
+COPY .mvn/ .mvn
+COPY mvnw ./
+COPY pom.xml ./
+RUN ./mvnw dependency:go-offline
+COPY ./src ./src
+CMD [ "./mvnw", "spring-boot:run" ]
