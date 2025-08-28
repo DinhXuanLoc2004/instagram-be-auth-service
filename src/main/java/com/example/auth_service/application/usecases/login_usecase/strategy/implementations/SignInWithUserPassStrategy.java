@@ -1,11 +1,11 @@
 package com.example.auth_service.application.usecases.login_usecase.strategy.implementations;
 
 import com.example.auth_service.application.interface_repositories.commands.IARAccountCommandRepositoty;
-import com.example.auth_service.application.ports.inputs.login_inputs.extensions.LoginWithUserPassInput;
-import com.example.auth_service.application.ports.outputs.LoginOutput;
+import com.example.auth_service.application.ports.inputs.login_inputs.extensions.SignInWithUserPassInput;
+import com.example.auth_service.application.ports.outputs.SignInOutput;
 import com.example.auth_service.application.service_for_usecase.IPasswordService;
 import com.example.auth_service.application.service_for_usecase.ITokenService;
-import com.example.auth_service.application.usecases.login_usecase.strategy.interfaces.LoginStrategy;
+import com.example.auth_service.application.usecases.login_usecase.strategy.interfaces.SignInStrategy;
 import com.example.auth_service.core.exceptions.specific_case.EmailNotFoundException;
 import com.example.auth_service.core.exceptions.specific_case.PasswordIncorrectException;
 import com.example.auth_service.domain.aggregate_roots.ARAccount;
@@ -13,13 +13,13 @@ import com.example.auth_service.domain.entities.entity_auth_provider.extensions.
 import com.example.auth_service.domain.types.ProviderType;
 import com.example.auth_service.domain.value_objects.VOEmail;
 
-public class LoginWithUserPassStrategy implements LoginStrategy<LoginWithUserPassInput> {
+public class SignInWithUserPassStrategy implements SignInStrategy<SignInWithUserPassInput> {
 
     private final IARAccountCommandRepositoty accountCommandRepositoty;
     private final ITokenService tokenService;
     private final IPasswordService passwordService;
 
-    public LoginWithUserPassStrategy(IARAccountCommandRepositoty accountCommandRepositoty,
+    public SignInWithUserPassStrategy(IARAccountCommandRepositoty accountCommandRepositoty,
             ITokenService tokenService, IPasswordService passwordService) {
         this.accountCommandRepositoty = accountCommandRepositoty;
         this.tokenService = tokenService;
@@ -27,7 +27,7 @@ public class LoginWithUserPassStrategy implements LoginStrategy<LoginWithUserPas
     }
 
     @Override
-    public LoginOutput login(LoginWithUserPassInput loginInput) {
+    public SignInOutput login(SignInWithUserPassInput loginInput) {
         VOEmail voEmail = VOEmail.create(loginInput.getEmail());
 
         boolean existsEmail = accountCommandRepositoty.existsEmail(voEmail);

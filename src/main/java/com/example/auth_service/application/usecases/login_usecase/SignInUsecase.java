@@ -1,17 +1,17 @@
 package com.example.auth_service.application.usecases.login_usecase;
 
-import com.example.auth_service.application.ports.inputs.login_inputs.abstraction.ALoginInput;
-import com.example.auth_service.application.ports.outputs.LoginOutput;
-import com.example.auth_service.application.usecases.login_usecase.strategy.interfaces.LoginStrategy;
+import com.example.auth_service.application.ports.inputs.login_inputs.abstraction.ASignInInput;
+import com.example.auth_service.application.ports.outputs.SignInOutput;
+import com.example.auth_service.application.usecases.login_usecase.strategy.interfaces.SignInStrategy;
 
-public class SignInUsecase<T extends ALoginInput> {
-    private final LoginStrategy<T> loginStrategy;
+public class SignInUsecase<T extends ASignInInput> {
+    private final SignInStrategy<T> signInStrategy;
 
-    public SignInUsecase(LoginStrategy<T> loginStrategy){
-        this.loginStrategy = loginStrategy;
+    public SignInUsecase(SignInStrategy<T> loginStrategy){
+        this.signInStrategy = loginStrategy;
     }
 
-    public LoginOutput execute(T loginInput){
-        return loginStrategy.login(loginInput);
+    public SignInOutput execute(T loginInput){
+        return signInStrategy.login(loginInput);
     }
 }

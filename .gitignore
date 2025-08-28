@@ -35,3 +35,6 @@ build/
 ### file .env
 *.env
 !*.example.env
+
+### .DS_Store
+**/.DS_Store

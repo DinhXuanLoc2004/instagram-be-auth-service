@@ -6,7 +6,7 @@ import com.example.auth_service.application.interface_repositories.commands.IEOT
 import com.example.auth_service.application.interface_repositories.queries.IEOTPQueryRepository;
 import com.example.auth_service.application.interface_repositories.queries.views.VOTP;
 import com.example.auth_service.application.ports.inputs.VerifyAccountInput;
-import com.example.auth_service.application.ports.outputs.LoginOutput;
+import com.example.auth_service.application.ports.outputs.SignInOutput;
 import com.example.auth_service.application.service_for_usecase.IOTPService;
 import com.example.auth_service.application.service_for_usecase.ITokenService;
 import com.example.auth_service.core.exceptions.specific_case.OTPExpiredException;
@@ -27,7 +27,7 @@ public class VerifyAccountUsecase {
         this.otpCommandRepository = otpCommandRepository;
     }
 
-    public LoginOutput execute(VerifyAccountInput input) {
+    public SignInOutput execute(VerifyAccountInput input) {
         Optional<VOTP> otp = otpQueryRepository.findByUserId(input.getAccountId().toString());
 
         if (otp.isEmpty())

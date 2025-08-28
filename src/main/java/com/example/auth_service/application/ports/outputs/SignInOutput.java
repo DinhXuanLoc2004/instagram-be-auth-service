@@ -1,10 +1,10 @@
 package com.example.auth_service.application.ports.outputs;
 
-public class LoginOutput {
+public class SignInOutput {
     private final String accessToken;
     private final String refreshToken;
 
-    public LoginOutput(String accessToken, String refreshToken){
+    public SignInOutput(String accessToken, String refreshToken){
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
     }
