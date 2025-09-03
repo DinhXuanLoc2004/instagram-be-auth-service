@@ -1,5 +1,7 @@
 package com.example.auth_service.domain.entities.entity_auth_provider.extensions;
 
+import java.util.UUID;
+
 import com.example.auth_service.domain.entities.entity_auth_provider.abstraction.EAuthProvider;
 import com.example.auth_service.domain.types.ProviderType;
 
@@ -9,6 +11,11 @@ public class UserPassAuthProvider extends EAuthProvider{
 
     public UserPassAuthProvider(String passwordHashed) {
         super(ProviderType.USER_PASS_TYPE);
+        this.passwordHashed = passwordHashed;
+    }
+
+    public UserPassAuthProvider(UUID id, String passwordHashed){
+        super(id, ProviderType.USER_PASS_TYPE);
         this.passwordHashed = passwordHashed;
     }
 

@@ -20,6 +20,16 @@ public class ARAccount {
         this.addAuthProvider(authProvider);
     }
 
+    private ARAccount(UUID id, String email, List<EAuthProvider> authProviders) {
+        this.id = id;
+        this.email = VOEmail.create(email);
+        this.authProviders = authProviders;
+    }
+
+    public static ARAccount toAggregate(UUID id, String email, List<EAuthProvider> authProviders) {
+        return new ARAccount(id, email, authProviders);
+    }
+
     public static ARAccount create(String email, EAuthProvider AuthProvider) {
         VOEmail voEmail = VOEmail.create(email);
         return new ARAccount(voEmail, AuthProvider);

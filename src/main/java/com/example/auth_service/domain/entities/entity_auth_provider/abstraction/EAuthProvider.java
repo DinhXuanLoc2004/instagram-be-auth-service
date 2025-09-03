@@ -13,6 +13,11 @@ public abstract class EAuthProvider {
         this.providerType = providerType;
     }
 
+    protected EAuthProvider(UUID id, ProviderType providerType){
+        this.id = id;
+        this.providerType = providerType;
+    }
+
     public UUID getId(){
         return this.id;
     }

@@ -30,11 +30,8 @@ public class SignInWithUserPassStrategy implements SignInStrategy<SignInWithUser
     public SignInOutput login(SignInWithUserPassInput loginInput) {
         VOEmail voEmail = VOEmail.create(loginInput.getEmail());
 
-        boolean existsEmail = accountCommandRepositoty.existsEmail(voEmail);
-
-        if (!existsEmail) throw new EmailNotFoundException();
-
-        ARAccount account = accountCommandRepositoty.findARAccountByEmail(voEmail);
+        ARAccount account = accountCommandRepositoty.findARAccountByEmail(voEmail)
+                .orElseThrow(() -> new EmailNotFoundException());
 
         UserPassAuthProvider userPassAuthProvider = account.getAuthProvider(ProviderType.USER_PASS_TYPE,
                 UserPassAuthProvider.class);

@@ -1,5 +1,7 @@
 package com.example.auth_service.infrastructure.persistences.ORMs;
 
+import java.util.UUID;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,9 +26,8 @@ public class ORMAuthUserPass extends ORMBase{
     @EqualsAndHashCode.Include
     private Long id;
 
-   @OneToOne
-   @JoinColumn(name = "auth_provider_id", unique = true)
-   private ORMAuthProvider authProvider;
+    @Column(name = "auth_provider_id", nullable = false, unique = true)
+    private UUID authProviderId;
 
     @Column(name = "password_hashed", nullable = false)
     private String passwordHashed;

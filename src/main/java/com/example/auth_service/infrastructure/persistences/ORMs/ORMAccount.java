@@ -30,11 +30,5 @@ public class ORMAccount extends ORMBase {
     @Column(nullable = false, unique = true)
     @EqualsAndHashCode.Include
     private String email;
-
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ORMRefreshTokenUsed> refreshTokenUseds = new ArrayList<>();
-
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ORMAuthProvider> authProviders = new ArrayList<>();
-
+    
 }

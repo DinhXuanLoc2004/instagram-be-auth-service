@@ -37,7 +37,7 @@ public class SignUpUsecase {
 
         UserPassAuthProvider userPassAuthProvider = new UserPassAuthProvider(passwordHashed);
 
-        ARAccount account = ARAccount.create(input.getPassword(), userPassAuthProvider);
+        ARAccount account = ARAccount.create(input.getEmail(), userPassAuthProvider);
 
         commandRepositoty.save(account);
 

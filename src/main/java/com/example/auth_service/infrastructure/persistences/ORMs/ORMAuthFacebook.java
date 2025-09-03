@@ -1,12 +1,12 @@
 package com.example.auth_service.infrastructure.persistences.ORMs;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,23 +14,22 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "auth_oauth2")
+@Table(name = "auth_facebook")
 @Data
 @EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class ORMAuthOAuth2 extends ORMBase {
+public class ORMAuthFacebook extends ORMBase {
     @Id
     @GeneratedValue
     @EqualsAndHashCode.Include
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "auth_provider_id")
-    private ORMAuthProvider authProvider;
+    @Column(name = "auth_provider_id", nullable = false, unique = true)
+    private UUID authProviderId;
 
-    @Column(name = "provider_user_id")
-    private String providerUserId;
+    @Column(name = "facebook_account_id")
+    private String facebookAccountId;
 
     @Column(name = "access_token_hashed")
     private String accessTokenHashed;
