@@ -8,7 +8,7 @@ import com.example.auth_service.application.interface_repositories.commands.IARA
 import com.example.auth_service.domain.aggregate_roots.ARAccount;
 import com.example.auth_service.domain.entities.entity_auth_provider.abstraction.EAuthProvider;
 import com.example.auth_service.domain.entities.entity_auth_provider.extensions.UserPassAuthProvider;
-import com.example.auth_service.domain.entities.entity_auth_provider.extensions.oauth2.extensions.FacebookAuthProvider;
+import com.example.auth_service.domain.entities.entity_auth_provider.extensions.oauth2.FacebookAuthProvider;
 import com.example.auth_service.domain.types.ProviderType;
 import com.example.auth_service.domain.value_objects.VOEmail;
 import com.example.auth_service.infrastructure.persistences.ORMs.ORMAccount;
@@ -36,7 +36,7 @@ public class ImpARAccountCommandRepository implements IARAccountCommandRepositot
 
     @Override
     public void save(ARAccount aggregate) {
-        ORMAccount account = new ORMAccount(aggregate.getId(), aggregate.getEmail().getValue());
+        ORMAccount account = new ORMAccount(aggregate.getId(), aggregate.getEmail().getValue(), aggregate.getIsVerified());
         accountCommand.save(account);
         for (EAuthProvider authProvider : aggregate.getAuthProviders()) {
             switch (authProvider.getProviderType()) {
@@ -59,7 +59,7 @@ public class ImpARAccountCommandRepository implements IARAccountCommandRepositot
                     FacebookAuthProvider facebookAuthProvider = aggregate.getAuthProvider(ProviderType.FACEBOOK_TYPE,
                             FacebookAuthProvider.class);
                     ORMAuthFacebook ormAuthFacebook = new ORMAuthFacebook(null, ormAuthProviderF.getId(), null,
-                            facebookAuthProvider.getProviderUserId(), null, null, null, null);
+                            facebookAuthProvider.getFacebookAccountId(), null, null, null, null);
                     authFacebookCommand.save(ormAuthFacebook);
                     break;
             }

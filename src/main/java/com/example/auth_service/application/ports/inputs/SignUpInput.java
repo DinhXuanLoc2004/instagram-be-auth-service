@@ -1,11 +1,23 @@
 package com.example.auth_service.application.ports.inputs;
 
-import com.example.auth_service.application.ports.inputs.login_inputs.extensions.SignInWithUserPassInput;
+public class SignUpInput {
+    private final String email;
+    private final String password;
 
-public class SignUpInput extends SignInWithUserPassInput {
-
+    
     public SignUpInput(String email, String password) {
-        super(email, password);
+        this.email = email;
+        this.password = password;
+    }
+
+
+    public String getEmail() {
+        return email;
+    }
+
+
+    public String getPassword() {
+        return password;
     }
 
 }

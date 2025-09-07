@@ -30,5 +30,8 @@ public class ORMAccount extends ORMBase {
     @Column(nullable = false, unique = true)
     @EqualsAndHashCode.Include
     private String email;
+
+    @Column(name = "is_verified")
+    private boolean isVerified;
     
 }

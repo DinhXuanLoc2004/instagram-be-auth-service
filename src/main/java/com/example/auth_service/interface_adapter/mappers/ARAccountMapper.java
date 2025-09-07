@@ -7,12 +7,13 @@ import java.util.Optional;
 import com.example.auth_service.domain.aggregate_roots.ARAccount;
 import com.example.auth_service.domain.entities.entity_auth_provider.abstraction.EAuthProvider;
 import com.example.auth_service.domain.entities.entity_auth_provider.extensions.UserPassAuthProvider;
-import com.example.auth_service.domain.entities.entity_auth_provider.extensions.oauth2.extensions.FacebookAuthProvider;
+import com.example.auth_service.domain.entities.entity_auth_provider.extensions.oauth2.FacebookAuthProvider;
 import com.example.auth_service.infrastructure.persistences.repositories.projection_interface.IARAccountProjection;
 
 public class ARAccountMapper {
     public static Optional<ARAccount> toARAccount(List<IARAccountProjection> rows) {
-        if (rows.isEmpty() || rows == null) return Optional.empty();
+        if (rows.isEmpty() || rows == null)
+            return Optional.empty();
         IARAccountProjection fist = rows.getFirst();
         List<EAuthProvider> authProviders = new ArrayList<>();
         for (IARAccountProjection row : rows) {
@@ -27,7 +28,8 @@ public class ARAccountMapper {
                     break;
             }
         }
-        ARAccount arAccount = ARAccount.toAggregate(fist.getAccountId(), fist.getEmail(), authProviders);
+        ARAccount arAccount = ARAccount.toAggregate(fist.getAccountId(), fist.getEmail(), fist.getIsVerified(),
+                authProviders);
         return Optional.of(arAccount);
     }
 }

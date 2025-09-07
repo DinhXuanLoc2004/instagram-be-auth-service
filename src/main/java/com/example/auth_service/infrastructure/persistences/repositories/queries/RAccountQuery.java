@@ -32,6 +32,7 @@ public interface RAccountQuery extends JpaRepository<ORMAccount, UUID> {
     @Query(value = """
             SELECT account.id AS accountId,
                    account.email AS email,
+                   account.is_verified AS isVerified,
                    provider.id AS providerId,
                    provider.provider_type AS providerType,
                    userpass.password_hashed AS passwordHashed,

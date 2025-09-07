@@ -1,10 +1,12 @@
 package com.example.auth_service.application.usecases.login_usecase.strategy.implementations;
 
+import org.springframework.stereotype.Component;
+
 import com.example.auth_service.application.interface_repositories.commands.IARAccountCommandRepositoty;
+import com.example.auth_service.application.interface_services.IPasswordService;
+import com.example.auth_service.application.interface_services.ITokenService;
 import com.example.auth_service.application.ports.inputs.login_inputs.extensions.SignInWithUserPassInput;
-import com.example.auth_service.application.ports.outputs.SignInOutput;
-import com.example.auth_service.application.service_for_usecase.IPasswordService;
-import com.example.auth_service.application.service_for_usecase.ITokenService;
+import com.example.auth_service.application.ports.outputs.JWTOutput;
 import com.example.auth_service.application.usecases.login_usecase.strategy.interfaces.SignInStrategy;
 import com.example.auth_service.core.exceptions.specific_case.EmailNotFoundException;
 import com.example.auth_service.core.exceptions.specific_case.PasswordIncorrectException;
@@ -13,6 +15,7 @@ import com.example.auth_service.domain.entities.entity_auth_provider.extensions.
 import com.example.auth_service.domain.types.ProviderType;
 import com.example.auth_service.domain.value_objects.VOEmail;
 
+@Component
 public class SignInWithUserPassStrategy implements SignInStrategy<SignInWithUserPassInput> {
 
     private final IARAccountCommandRepositoty accountCommandRepositoty;
@@ -27,7 +30,7 @@ public class SignInWithUserPassStrategy implements SignInStrategy<SignInWithUser
     }
 
     @Override
-    public SignInOutput login(SignInWithUserPassInput loginInput) {
+    public JWTOutput login(SignInWithUserPassInput loginInput) {
         VOEmail voEmail = VOEmail.create(loginInput.getEmail());
 
         ARAccount account = accountCommandRepositoty.findARAccountByEmail(voEmail)

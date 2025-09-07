@@ -16,3 +16,8 @@ spring:
       ddl-auto: update
     show-sql: true
 
+  #enabled virtual threads non blocking
+  threads:
+    virtual:
+      enabled: true
+

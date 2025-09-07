@@ -1,4 +1,4 @@
-package com.example.auth_service.application.service_for_usecase;
+package com.example.auth_service.application.interface_services;
 
 public interface IHashBaseService{
 

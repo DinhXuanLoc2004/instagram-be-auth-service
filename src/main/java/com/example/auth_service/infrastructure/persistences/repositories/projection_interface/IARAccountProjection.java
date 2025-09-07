@@ -5,6 +5,7 @@ import java.util.UUID;
 public interface IARAccountProjection {
     public UUID getAccountId();
     public String getEmail();
+    public boolean getIsVerified();
     public UUID getProviderId();
     public String getProviderType();
     public String getPasswordHashed();
