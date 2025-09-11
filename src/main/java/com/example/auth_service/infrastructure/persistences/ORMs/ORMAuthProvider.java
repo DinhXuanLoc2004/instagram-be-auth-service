@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class ORMAuthProvider extends ORMBase{
+public class ORMAuthProvider extends ORMBase {
     @Id
     @EqualsAndHashCode.Include
     private UUID id;
@@ -32,5 +32,4 @@ public class ORMAuthProvider extends ORMBase{
     @Column(name = "provider_type")
     @Enumerated(EnumType.STRING)
     private ProviderType providerType;
-
 }

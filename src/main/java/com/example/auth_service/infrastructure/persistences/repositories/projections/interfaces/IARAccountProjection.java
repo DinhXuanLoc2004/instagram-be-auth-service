@@ -1,12 +1,10 @@
-package com.example.auth_service.infrastructure.persistences.repositories.projection_interface;
-
-import java.util.UUID;
+package com.example.auth_service.infrastructure.persistences.repositories.projections.interfaces;
 
 public interface IARAccountProjection {
-    public UUID getAccountId();
+    public byte[] getAccountId();
     public String getEmail();
     public boolean getIsVerified();
-    public UUID getProviderId();
+    public byte[] getAuthProviderId();
     public String getProviderType();
     public String getPasswordHashed();
     public String getFacebookAccountId();

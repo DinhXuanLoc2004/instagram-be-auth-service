@@ -7,7 +7,7 @@ import com.example.auth_service.application.interface_services.IPasswordService;
 import com.example.auth_service.application.interface_services.ITokenService;
 import com.example.auth_service.application.ports.inputs.SignUpInput;
 import com.example.auth_service.application.ports.outputs.JWTOutput;
-import com.example.auth_service.core.exceptions.specific_case.EmailAlreadyExistsException;
+import com.example.auth_service.core.respones.exceptions.specific_case.EmailAlreadyExistsException;
 import com.example.auth_service.domain.aggregate_roots.ARAccount;
 import com.example.auth_service.domain.entities.entity_auth_provider.extensions.UserPassAuthProvider;
 import com.example.auth_service.domain.value_objects.VOEmail;

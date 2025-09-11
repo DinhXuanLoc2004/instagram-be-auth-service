@@ -3,9 +3,9 @@ package com.example.auth_service.application.ports.inputs.login_inputs.abstracti
 import com.example.auth_service.domain.types.ProviderType;
 
 public abstract class ASignInInput {
-    protected ProviderType providerType;
+    public ProviderType providerType;
 
-    protected ASignInInput(ProviderType providerType){
+    public ASignInInput(ProviderType providerType){
         this.providerType = providerType;
     }
 

@@ -1,4 +1,4 @@
-package com.example.auth_service.core.exceptions.base.abstraction;
+package com.example.auth_service.core.respones.exceptions.base.abstraction;
 
 import org.springframework.http.HttpStatus;
 

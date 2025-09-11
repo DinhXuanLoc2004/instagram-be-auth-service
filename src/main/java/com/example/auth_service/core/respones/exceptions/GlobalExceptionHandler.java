@@ -1,11 +1,11 @@
-package com.example.auth_service.core.exceptions;
+package com.example.auth_service.core.respones.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.example.auth_service.core.exceptions.base.abstraction.GlobalException;
+import com.example.auth_service.core.respones.exceptions.base.abstraction.GlobalException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

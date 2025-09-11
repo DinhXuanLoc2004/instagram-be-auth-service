@@ -1,3 +1,6 @@
+server:
+  port: 8000
+
 spring:
   application:
     name: auth-service
@@ -15,9 +18,20 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  devtools:
+    restart:
+      enabled: true
+
+logging:
+  level:
+    '[org.hibernate.sql]': debug
+    '[org.hibernate.type.descriptor.sql]': trace
+    '[org.springframework.transaction]': debug
+    '[org.springframework.orm.jpa]': debug
+    root: error
 
   #enabled virtual threads non blocking
-  threads:
-    virtual:
-      enabled: true
+  # threads:
+  #   virtual:
+  #     enabled: true
 

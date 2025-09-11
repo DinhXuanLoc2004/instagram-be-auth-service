@@ -1,4 +1,4 @@
-package com.example.auth_service.core.exceptions;
+package com.example.auth_service.core.respones.exceptions;
 
 import java.util.Arrays;
 import java.util.List;

@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import com.example.auth_service.core.exceptions.specific_case.AlreadyVerifiedException;
-import com.example.auth_service.core.exceptions.specific_case.AuthProviderNotExistException;
+import com.example.auth_service.core.respones.exceptions.specific_case.AlreadyVerifiedException;
+import com.example.auth_service.core.respones.exceptions.specific_case.AuthProviderNotExistException;
+import com.example.auth_service.core.respones.exceptions.specific_case.ProviderAlreadyException;
 import com.example.auth_service.domain.entities.entity_auth_provider.abstraction.EAuthProvider;
 import com.example.auth_service.domain.types.ProviderType;
 import com.example.auth_service.domain.value_objects.VOEmail;
@@ -58,7 +59,7 @@ public class ARAccount {
         boolean exists = authProviders.stream()
                 .anyMatch(p -> p.getProviderType().equals(eAuthProvider.getProviderType()));
         if (exists) {
-            throw new IllegalArgumentException("Provider already linked for this account");
+            throw new ProviderAlreadyException("Provider already linked for this account");
         }
         this.authProviders.add(eAuthProvider);
     }

@@ -24,10 +24,15 @@ public class ORMAccount extends ORMBase {
     private UUID id;
 
     @Column(nullable = false, unique = true)
-    @EqualsAndHashCode.Include
     private String email;
 
     @Column(name = "is_verified")
     private boolean isVerified;
+
+    // public ORMAccount(UUID id, String email, boolean isVerified){
+    //     this.id = id;
+    //     this.email = email;
+    //     this.isVerified = isVerified;
+    // }
     
 }

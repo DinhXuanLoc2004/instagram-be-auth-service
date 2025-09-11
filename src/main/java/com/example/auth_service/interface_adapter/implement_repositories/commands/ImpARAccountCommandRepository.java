@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.example.auth_service.application.interface_repositories.commands.IARAccountCommandRepositoty;
 import com.example.auth_service.domain.aggregate_roots.ARAccount;
 import com.example.auth_service.domain.entities.entity_auth_provider.abstraction.EAuthProvider;
 import com.example.auth_service.domain.entities.entity_auth_provider.extensions.UserPassAuthProvider;
 import com.example.auth_service.domain.entities.entity_auth_provider.extensions.oauth2.FacebookAuthProvider;
-import com.example.auth_service.domain.types.ProviderType;
 import com.example.auth_service.domain.value_objects.VOEmail;
 import com.example.auth_service.infrastructure.persistences.ORMs.ORMAccount;
 import com.example.auth_service.infrastructure.persistences.ORMs.ORMAuthFacebook;
@@ -19,12 +21,14 @@ import com.example.auth_service.infrastructure.persistences.repositories.command
 import com.example.auth_service.infrastructure.persistences.repositories.commands.RAuthFacebookCommand;
 import com.example.auth_service.infrastructure.persistences.repositories.commands.RAuthProviderCommand;
 import com.example.auth_service.infrastructure.persistences.repositories.commands.RAuthUserPassCommand;
-import com.example.auth_service.infrastructure.persistences.repositories.projection_interface.IARAccountProjection;
+import com.example.auth_service.infrastructure.persistences.repositories.projections.interfaces.IARAccountProjection;
 import com.example.auth_service.infrastructure.persistences.repositories.queries.RAccountQuery;
 import com.example.auth_service.interface_adapter.mappers.ARAccountMapper;
 
 import lombok.AllArgsConstructor;
 
+@Component
+@Transactional
 @AllArgsConstructor
 public class ImpARAccountCommandRepository implements IARAccountCommandRepositoty {
 
@@ -36,29 +40,30 @@ public class ImpARAccountCommandRepository implements IARAccountCommandRepositot
 
     @Override
     public void save(ARAccount aggregate) {
-        ORMAccount account = new ORMAccount(aggregate.getId(), aggregate.getEmail().getValue(), aggregate.getIsVerified());
+        ORMAccount account = new ORMAccount(aggregate.getId(), aggregate.getEmail().getValue(),
+                aggregate.getIsVerified());
         accountCommand.save(account);
+
         for (EAuthProvider authProvider : aggregate.getAuthProviders()) {
+
+            ORMAuthProvider ormAuthProvider = new ORMAuthProvider(authProvider.getId(), account.getId(),
+                    authProvider.getProviderType());
+            authProviderCommand.save(ormAuthProvider);
+
             switch (authProvider.getProviderType()) {
                 case USER_PASS_TYPE:
-                    ORMAuthProvider ormAuthProvider = new ORMAuthProvider(authProvider.getId(), account.getId(),
-                            ProviderType.USER_PASS_TYPE);
-                    authProviderCommand.save(ormAuthProvider);
-
+                    UserPassAuthProvider userPassAuthProvider = aggregate
+                            .getAuthProvider(authProvider.getProviderType(), UserPassAuthProvider.class);
                     ORMAuthUserPass ormAuthUserPass = new ORMAuthUserPass(null, ormAuthProvider.getId(),
-                            aggregate.getAuthProvider(ProviderType.USER_PASS_TYPE, UserPassAuthProvider.class)
-                                    .getPasswordHashed());
+                            userPassAuthProvider.getPasswordHashed());
                     authUserPassCommand.save(ormAuthUserPass);
                     break;
 
                 case FACEBOOK_TYPE:
-                    ORMAuthProvider ormAuthProviderF = new ORMAuthProvider(authProvider.getId(), account.getId(),
-                            ProviderType.FACEBOOK_TYPE);
-                    authProviderCommand.save(ormAuthProviderF);
-
-                    FacebookAuthProvider facebookAuthProvider = aggregate.getAuthProvider(ProviderType.FACEBOOK_TYPE,
+                    FacebookAuthProvider facebookAuthProvider = aggregate.getAuthProvider(
+                            authProvider.getProviderType(),
                             FacebookAuthProvider.class);
-                    ORMAuthFacebook ormAuthFacebook = new ORMAuthFacebook(null, ormAuthProviderF.getId(), null,
+                    ORMAuthFacebook ormAuthFacebook = new ORMAuthFacebook(null, ormAuthProvider.getId(), null,
                             facebookAuthProvider.getFacebookAccountId(), null, null, null, null);
                     authFacebookCommand.save(ormAuthFacebook);
                     break;
