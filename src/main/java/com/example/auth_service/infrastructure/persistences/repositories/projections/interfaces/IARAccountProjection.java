@@ -3,6 +3,7 @@ package com.example.auth_service.infrastructure.persistences.repositories.projec
 public interface IARAccountProjection {
     public byte[] getAccountId();
     public String getEmail();
+    public String getRole();
     public boolean getIsVerified();
     public byte[] getAuthProviderId();
     public String getProviderType();

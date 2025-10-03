@@ -9,11 +9,13 @@ import com.example.auth_service.core.respones.exceptions.specific_case.AuthProvi
 import com.example.auth_service.core.respones.exceptions.specific_case.ProviderAlreadyException;
 import com.example.auth_service.domain.entities.entity_auth_provider.abstraction.EAuthProvider;
 import com.example.auth_service.domain.types.ProviderType;
+import com.example.auth_service.domain.types.RoleType;
 import com.example.auth_service.domain.value_objects.VOEmail;
 
 public class ARAccount {
     private final UUID id;
     private VOEmail email;
+    private final RoleType role;
     private boolean isVerified;
     private List<EAuthProvider> authProviders = new ArrayList<>();
 
@@ -23,26 +25,28 @@ public class ARAccount {
         this.isVerified = true;
     }
 
-    private ARAccount(VOEmail email, EAuthProvider authProvider) {
+    private ARAccount(VOEmail email, RoleType role,EAuthProvider authProvider) {
         this.id = UUID.randomUUID();
         this.email = email;
+        this.role = role;
         this.addAuthProvider(authProvider);
     }
 
-    private ARAccount(UUID id, String email, boolean isVerified, List<EAuthProvider> authProviders) {
+    private ARAccount(UUID id, String email, RoleType role,boolean isVerified, List<EAuthProvider> authProviders) {
         this.id = id;
         this.email = VOEmail.create(email);
         this.isVerified = isVerified;
         this.authProviders = authProviders;
+        this.role = role;
     }
 
-    public static ARAccount toAggregate(UUID id, String email, boolean isVerified, List<EAuthProvider> authProviders) {
-        return new ARAccount(id, email, isVerified, authProviders);
+    public static ARAccount toAggregate(UUID id, String email, RoleType role,boolean isVerified, List<EAuthProvider> authProviders) {
+        return new ARAccount(id, email, role,isVerified, authProviders);
     }
 
-    public static ARAccount create(String email, EAuthProvider AuthProvider) {
+    public static ARAccount create(String email, RoleType role,EAuthProvider AuthProvider) {
         VOEmail voEmail = VOEmail.create(email);
-        return new ARAccount(voEmail, AuthProvider);
+        return new ARAccount(voEmail, role,AuthProvider);
     }
 
     public <T extends EAuthProvider> T getAuthProvider(ProviderType providerType, Class<T> clazz) {
@@ -78,6 +82,10 @@ public class ARAccount {
 
     public VOEmail getEmail() {
         return this.email;
+    }
+
+    public RoleType getRole(){
+        return this.role;
     }
 
     public List<EAuthProvider> getAuthProviders() {

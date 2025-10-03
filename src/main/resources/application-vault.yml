@@ -7,8 +7,12 @@ spring:
       scheme: http
       host: vault-server
       port: 8200
-      authentication: token
-      token: ${TOKEN}
+      authentication: approle
+      app-role:
+        role-id: a7719cdf-24b9-6856-c8d6-cf5c0d40f8bb
+        secret-id: 8e3f1d3b-cbf7-eb45-ce65-5b896d1f4227
+        role: auth-approle
+        app-role-path: approle/
       database:
         enabled: true
         backend: database

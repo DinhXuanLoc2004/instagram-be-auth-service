@@ -2,8 +2,12 @@ package com.example.auth_service.infrastructure.persistences.ORMs;
 
 import java.util.UUID;
 
+import com.example.auth_service.domain.types.RoleType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -26,13 +30,11 @@ public class ORMAccount extends ORMBase {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private RoleType role;
+
     @Column(name = "is_verified")
     private boolean isVerified;
 
-    // public ORMAccount(UUID id, String email, boolean isVerified){
-    //     this.id = id;
-    //     this.email = email;
-    //     this.isVerified = isVerified;
-    // }
-    
 }

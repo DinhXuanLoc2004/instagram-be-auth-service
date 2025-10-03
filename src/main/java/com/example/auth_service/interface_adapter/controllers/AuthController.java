@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.auth_service.application.ports.inputs.SignUpInput;
 import com.example.auth_service.application.ports.inputs.login_inputs.extensions.SignInWithFacebookInput;
 import com.example.auth_service.application.ports.inputs.login_inputs.extensions.SignInWithUserPassInput;
-import com.example.auth_service.application.ports.outputs.JWTOutput;
+import com.example.auth_service.application.ports.outputs.TokenOutput;
 import com.example.auth_service.application.usecases.SignUpUsecase;
 import com.example.auth_service.application.usecases.login_usecase.SignInUsecase;
 import com.example.auth_service.application.usecases.login_usecase.strategy.implementations.SignInWithFacebookStrategy;
@@ -29,19 +29,19 @@ public class AuthController {
     private final SignInWithFacebookStrategy signInWithFacebookStrategy;
 
     @PostMapping("/sign-in/userpass")
-    public ResponseEntity<OkResponse<JWTOutput>> signInWithUserpass(@RequestBody SignInWithUserPassInput input) {
+    public ResponseEntity<OkResponse<TokenOutput>> signInWithUserpass(@RequestBody SignInWithUserPassInput input) {
         SignInUsecase<SignInWithUserPassInput> signInUsecase = new SignInUsecase<>(signInWithUserPassStrategy);
         return ResponeFactory.ok(signInUsecase.execute(input));
     }
 
     @PostMapping("/sign-in/faceboook")
-    public ResponseEntity<OkResponse<JWTOutput>> signInWithFacebook(@RequestBody SignInWithFacebookInput input) {
+    public ResponseEntity<OkResponse<TokenOutput>> signInWithFacebook(@RequestBody SignInWithFacebookInput input) {
         SignInUsecase<SignInWithFacebookInput> signInUsecase = new SignInUsecase<>(signInWithFacebookStrategy);
         return ResponeFactory.ok(signInUsecase.execute(input));
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<CreatedResponse<JWTOutput>> signUp(@RequestBody SignUpInput input) {
+    public ResponseEntity<CreatedResponse<TokenOutput>> signUp(@RequestBody SignUpInput input) {
         return ResponeFactory.created(signUpUsecase.execute(input));
     }
 }

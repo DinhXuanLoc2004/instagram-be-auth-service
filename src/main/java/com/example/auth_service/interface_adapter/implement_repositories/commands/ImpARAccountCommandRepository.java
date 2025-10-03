@@ -41,7 +41,7 @@ public class ImpARAccountCommandRepository implements IARAccountCommandRepositot
     @Override
     public void save(ARAccount aggregate) {
         ORMAccount account = new ORMAccount(aggregate.getId(), aggregate.getEmail().getValue(),
-                aggregate.getIsVerified());
+                aggregate.getRole(), aggregate.getIsVerified());
         accountCommand.save(account);
 
         for (EAuthProvider authProvider : aggregate.getAuthProviders()) {

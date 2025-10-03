@@ -1,6 +1,7 @@
 package com.example.auth_service.infrastructure.persistences.repositories.queries;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,41 +11,53 @@ import org.springframework.stereotype.Repository;
 
 import com.example.auth_service.infrastructure.persistences.ORMs.ORMAccount;
 import com.example.auth_service.infrastructure.persistences.repositories.projections.interfaces.IARAccountProjection;
+import com.example.auth_service.infrastructure.persistences.repositories.projections.interfaces.IAccountRoleProjection;
 
 @Repository
 public interface RAccountQuery extends JpaRepository<ORMAccount, UUID> {
 
-        @Query(value = """
-                        SELECT account.id AS accountId,
-                               account.email AS email,
-                               provider.id AS providerId,
-                               provider.provider_type AS providerType,
-                               userpass.password_hashed AS passwordHashed,
-                               facebook.facebook_account_id AS facebookAccountId
-                        FROM accounts account
-                        LEFT JOIN auth_providers provider ON account.id = provider.account_id
-                        LEFT JOIN auth_userpass userpass ON provider.id = userpass.auth_provider_id
-                        LEFT JOIN auth_facebook facebook ON provider.id = facebook.auth_provider_id
-                        WHERE account.id = :accountId
-                        """, nativeQuery = true)
-        public List<IARAccountProjection> findARAccountById(@Param(value = "id") UUID accountId);
+       @Query(value = """
+                     SELECT account.id AS accountId,
+                            account.email AS email,
+                            account.role AS role,
+                            account.is_verified AS isVerified,
+                            provider.id AS providerId,
+                            provider.provider_type AS providerType,
+                            userpass.password_hashed AS passwordHashed,
+                            facebook.facebook_account_id AS facebookAccountId
+                     FROM accounts account
+                     LEFT JOIN auth_providers provider ON account.id = provider.account_id
+                     LEFT JOIN auth_userpass userpass ON provider.id = userpass.auth_provider_id
+                     LEFT JOIN auth_facebook facebook ON provider.id = facebook.auth_provider_id
+                     WHERE account.id = :accountId
+                     """, nativeQuery = true)
+       public List<IARAccountProjection> findARAccountById(@Param(value = "id") UUID accountId);
 
-        @Query(value = """
-                                SELECT account.id AS accountId,
-                                       account.email AS email,
-                                       account.is_verified AS isVerified,
-                                       provider.id AS authProviderId,
-                                       provider.provider_type AS providerType,
-                                       userpass.password_hashed AS passwordHashed,
-                                       facebook.facebook_account_id AS facebookAccountId
-                                FROM accounts account
-                                LEFT JOIN auth_providers provider ON account.id = provider.account_id
-                                LEFT JOIN auth_userpass userpass ON provider.id = userpass.auth_provider_id
-                                LEFT JOIN auth_facebook facebook ON provider.id = facebook.auth_provider_id
-                                WHERE account.email = :email
-                        """, nativeQuery = true)
-        public List<IARAccountProjection> findARAccountByEmail(@Param(value = "email") String email);
+       @Query(value = """
+                             SELECT account.id AS accountId,
+                                    account.email AS email,
+                                    account.role AS role,
+                                    account.is_verified AS isVerified,
+                                    provider.id AS authProviderId,
+                                    provider.provider_type AS providerType,
+                                    userpass.password_hashed AS passwordHashed,
+                                    facebook.facebook_account_id AS facebookAccountId
+                             FROM accounts account
+                             LEFT JOIN auth_providers provider ON account.id = provider.account_id
+                             LEFT JOIN auth_userpass userpass ON provider.id = userpass.auth_provider_id
+                             LEFT JOIN auth_facebook facebook ON provider.id = facebook.auth_provider_id
+                             WHERE account.email = :email
+                     """, nativeQuery = true)
+       public List<IARAccountProjection> findARAccountByEmail(@Param(value = "email") String email);
 
-        @Query("select case when count(a)>0 then true else false end from ORMAccount a where a.email = :email")
-        public boolean existsByEmail(@Param(value = "email") String email);
+       @Query(value = """
+                            SELECT account.id AS accountId,
+                            account.role AS role
+                            FROM accounts account
+                            WHERE account.id = :id
+                     """, nativeQuery = true)
+       public Optional<IAccountRoleProjection> findAccountRoleById(@Param(value = "id") UUID accountId);
+
+       @Query("select case when count(a)>0 then true else false end from ORMAccount a where a.email = :email")
+       public boolean existsByEmail(@Param(value = "email") String email);
 }

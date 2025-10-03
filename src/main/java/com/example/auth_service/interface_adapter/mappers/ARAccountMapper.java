@@ -9,6 +9,7 @@ import com.example.auth_service.domain.aggregate_roots.ARAccount;
 import com.example.auth_service.domain.entities.entity_auth_provider.abstraction.EAuthProvider;
 import com.example.auth_service.domain.entities.entity_auth_provider.extensions.UserPassAuthProvider;
 import com.example.auth_service.domain.entities.entity_auth_provider.extensions.oauth2.FacebookAuthProvider;
+import com.example.auth_service.domain.types.RoleType;
 import com.example.auth_service.infrastructure.persistences.repositories.projections.interfaces.IARAccountProjection;
 
 public class ARAccountMapper {
@@ -31,7 +32,13 @@ public class ARAccountMapper {
                     break;
             }
         }
-        ARAccount arAccount = ARAccount.toAggregate(UUID.nameUUIDFromBytes(fist.getAccountId()), fist.getEmail(),
+
+        final RoleType role = fist.getRole() == RoleType.USER.toString() ? RoleType.USER : RoleType.ADMIN;
+
+        ARAccount arAccount = ARAccount.toAggregate(
+                UUID.nameUUIDFromBytes(fist.getAccountId()),
+                fist.getEmail(),
+                role,
                 fist.getIsVerified(),
                 authProviders);
         return Optional.of(arAccount);
