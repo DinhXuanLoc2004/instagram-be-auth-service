@@ -18,7 +18,7 @@ public class RedisConfig {
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
-        final String HOST = "auth-db";
+        final String HOST = "auth-redis";
         final int POST = 6379;
 
         final RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(HOST, POST);

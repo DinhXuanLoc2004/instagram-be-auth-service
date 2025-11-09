@@ -1,5 +1,6 @@
 package com.example.auth_service.interface_adapter.implement_services;
 
+import java.time.Instant;
 import java.util.UUID;
 
 import org.springframework.stereotype.Component;
@@ -12,13 +13,13 @@ import lombok.AllArgsConstructor;
 
 @Component
 @AllArgsConstructor
-public class ImpJWTService implements IJWTService{
+public class ImpJWTService implements IJWTService {
 
     private final VaultTransitService vaultTransit;
-    
+
     @Override
-    public String signJWT(UUID accountId, RoleType role) {
-        return vaultTransit.signing(accountId.toString(), role.toString());
+    public String signJWT(UUID accountId, RoleType role, Instant issuedAt, Instant expireAt) {
+        return vaultTransit.signing(accountId.toString(), role.toString(), issuedAt, expireAt);
     }
-    
+
 }

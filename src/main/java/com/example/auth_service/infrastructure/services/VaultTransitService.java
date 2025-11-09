@@ -14,7 +14,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
-public class VaultTransitService{
+public class VaultTransitService {
     private final VaultTransitOperations vaultTransitOperations;
     private final ObjectMapper objectMapper;
 
@@ -27,11 +27,11 @@ public class VaultTransitService{
         this.objectMapper = new ObjectMapper();
     }
 
-    public String signing(String accountId, String role) {
-        final long exp = Instant.now().getEpochSecond() + 15 * 60;
+    public String signing(String accountId, String role, Instant issuedAt, Instant expireAt) {
 
         final HeaderJWT headerJWT = new HeaderJWT(ALG, TYP);
-        final PayloadJWT payloadJWT = new PayloadJWT(accountId, role, exp);
+        final PayloadJWT payloadJWT = new PayloadJWT(accountId, role, issuedAt.getEpochSecond(),
+                expireAt.getEpochSecond());
 
         final String headerJson = toJson(headerJWT);
         final String payloadJson = toJson(payloadJWT);
@@ -63,7 +63,7 @@ public class VaultTransitService{
         return Base64.getUrlEncoder().withoutPadding().encodeToString(value.getBytes());
     }
 
-    private String rawToBase64UrlEncode(String base64Standard){
+    private String rawToBase64UrlEncode(String base64Standard) {
         byte[] decoded = Base64.getDecoder().decode(base64Standard);
         return Base64.getUrlEncoder().withoutPadding().encodeToString(decoded);
     }

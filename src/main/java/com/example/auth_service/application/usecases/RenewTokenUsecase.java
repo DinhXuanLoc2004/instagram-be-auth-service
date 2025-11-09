@@ -8,20 +8,17 @@ import com.example.auth_service.application.interface_repositories.commands.IRef
 import com.example.auth_service.application.interface_repositories.queries.IAccountQueryRepository;
 import com.example.auth_service.application.interface_repositories.queries.IRefreshTokenUsingQueryReposetory;
 import com.example.auth_service.application.interface_repositories.queries.views.AccountRoleView;
-import com.example.auth_service.application.interface_services.IJWTService;
 import com.example.auth_service.application.ports.outputs.TokenOutput;
-import com.example.auth_service.domain.entities.RefreshTokenUseEntity;
-
 import lombok.AllArgsConstructor;
 
 @Component
 @AllArgsConstructor
-public class RefreshTokenUsecase {
+public class RenewTokenUsecase {
 
     private final IRefreshTokenUsingQueryReposetory refreshTokenUsingQueryReposetory;
     private final IRefreshTokenUsingCommandRepository refreshTokenUsingCommandRepository;
     private final IAccountQueryRepository accountQueryRepository;
-    private final IJWTService jwtService;
+    private final CreateTokenUseCase createTokenUseCase;
 
     public TokenOutput excute(UUID idRefreshToken) {
         final UUID accountId = refreshTokenUsingQueryReposetory.findAccountIdById(idRefreshToken).orElseThrow();
@@ -29,15 +26,8 @@ public class RefreshTokenUsecase {
         final AccountRoleView accountRoleView = accountQueryRepository.findById(accountId)
                 .orElseThrow();
 
-        final String accessToken = jwtService.signJWT(accountRoleView.getId(), accountRoleView.getRole());
-
-        final RefreshTokenUseEntity newRefreshTokenUseEntity = RefreshTokenUseEntity.create(accountRoleView.getId());
-
         refreshTokenUsingCommandRepository.delete(idRefreshToken);
-        refreshTokenUsingCommandRepository.save(newRefreshTokenUseEntity);
-        
-        final TokenOutput output = new TokenOutput(accessToken, newRefreshTokenUseEntity.getId().toString());
 
-        return output;
+        return createTokenUseCase.excute(accountId, accountRoleView.getRole());
     }
 }

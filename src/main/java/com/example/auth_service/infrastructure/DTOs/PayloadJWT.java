@@ -11,5 +11,6 @@ public class PayloadJWT {
     @JsonProperty("account_id")
     private final String accountId;
     private final String role;
-    private final long exp;
+    private final long iat; // issuedAt
+    private final long exp; // expireAt
 }
