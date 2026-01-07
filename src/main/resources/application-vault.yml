@@ -11,7 +11,7 @@ spring:
       app-role:
         role-id: a7719cdf-24b9-6856-c8d6-cf5c0d40f8bb
         # secret-id sẽ hết hạn sau khi hết TTL nên là hãy lấy lại nó
-        secret-id: fe9fa591-5450-9e2a-3ce4-c11c4ce95cfd 
+        secret-id: 11f74002-ff72-d742-d10a-79db561ccfb5 
         role: auth-approle
         app-role-path: approle/
       database:

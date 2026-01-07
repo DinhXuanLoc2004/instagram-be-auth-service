@@ -29,7 +29,7 @@ services:
     container_name: auth-db
     image: mysql:8.0
     ports:
-      - "5000:3306"
+      - "5500:3306"
     volumes:
       - auth-db:/var/lib/mysql
       - ./create-role.sql:/docker-entrypoint-initdb.d/create-role.sql
