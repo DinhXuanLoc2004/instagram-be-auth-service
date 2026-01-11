@@ -42,7 +42,7 @@ public class AuthController {
         return ResponeFactory.ok(signInUsecase.execute(input));
     }
 
-    @PostMapping("/sign-in/faceboook")
+    @PostMapping("/sign-in/facebook")
     public ResponseEntity<OkResponse<TokenOutput>> signInWithFacebook(@RequestBody SignInWithFacebookInput input) {
         SignInUsecase<SignInWithFacebookInput> signInUsecase = new SignInUsecase<>(signInWithFacebookStrategy);
         return ResponeFactory.ok(signInUsecase.execute(input));

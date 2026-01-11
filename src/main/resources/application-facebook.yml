@@ -1,0 +1,5 @@
+app:
+    facebook:
+        app-id: "2494087481007629"
+        issuer-url: "https://www.facebook.com"
+        config_url: "https://www.facebook.com/.well-known/openid-configuration"

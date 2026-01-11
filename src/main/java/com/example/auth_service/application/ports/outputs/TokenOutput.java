@@ -10,7 +10,8 @@ public class TokenOutput {
     private final Instant refreshTokenExpireAt;
     private final long refreshTokenExpireAtEpoch;
 
-    public TokenOutput(String accessToken, String refreshToken, Instant accessTokenExpireAt, Instant refreshTokenExpireAt){
+    public TokenOutput(String accessToken, String refreshToken, Instant accessTokenExpireAt,
+            Instant refreshTokenExpireAt) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.accessTokenExpireAt = accessTokenExpireAt;

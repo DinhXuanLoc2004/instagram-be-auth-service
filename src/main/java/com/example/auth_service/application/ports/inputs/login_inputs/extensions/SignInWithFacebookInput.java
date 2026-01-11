@@ -4,7 +4,20 @@ import com.example.auth_service.application.ports.inputs.login_inputs.abstractio
 import com.example.auth_service.domain.types.ProviderType;
 
 public class SignInWithFacebookInput extends ASignInInput{
-    public SignInWithFacebookInput(){
+    final String oidcID;
+    final String rawNonce;
+
+    public SignInWithFacebookInput(String oidcID, String rawNonce){
         super(ProviderType.FACEBOOK_TYPE);
+        this.oidcID = oidcID;
+        this.rawNonce = rawNonce;
+    }
+
+    public String getOidcID(){
+        return this.oidcID;
+    }
+
+    public String getRawNonce(){
+        return this.rawNonce;
     }
 }

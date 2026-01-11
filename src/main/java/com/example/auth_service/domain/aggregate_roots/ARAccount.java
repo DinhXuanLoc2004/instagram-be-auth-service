@@ -19,20 +19,14 @@ public class ARAccount {
     private boolean isVerified;
     private List<EAuthProvider> authProviders = new ArrayList<>();
 
-    public void verify() {
-        if (this.isVerified == true)
-            throw new AlreadyVerifiedException();
-        this.isVerified = true;
-    }
-
-    private ARAccount(VOEmail email, RoleType role,EAuthProvider authProvider) {
+    private ARAccount(VOEmail email, RoleType role, EAuthProvider authProvider) {
         this.id = UUID.randomUUID();
         this.email = email;
         this.role = role;
         this.addAuthProvider(authProvider);
     }
 
-    private ARAccount(UUID id, String email, RoleType role,boolean isVerified, List<EAuthProvider> authProviders) {
+    private ARAccount(UUID id, String email, RoleType role, boolean isVerified, List<EAuthProvider> authProviders) {
         this.id = id;
         this.email = VOEmail.create(email);
         this.isVerified = isVerified;
@@ -40,13 +34,14 @@ public class ARAccount {
         this.role = role;
     }
 
-    public static ARAccount toAggregate(UUID id, String email, RoleType role,boolean isVerified, List<EAuthProvider> authProviders) {
-        return new ARAccount(id, email, role,isVerified, authProviders);
+    public static ARAccount toAggregate(UUID id, String email, RoleType role, boolean isVerified,
+            List<EAuthProvider> authProviders) {
+        return new ARAccount(id, email, role, isVerified, authProviders);
     }
 
-    public static ARAccount create(String email, RoleType role,EAuthProvider AuthProvider) {
+    public static ARAccount create(String email, RoleType role, EAuthProvider AuthProvider) {
         VOEmail voEmail = VOEmail.create(email);
-        return new ARAccount(voEmail, role,AuthProvider);
+        return new ARAccount(voEmail, role, AuthProvider);
     }
 
     public <T extends EAuthProvider> T getAuthProvider(ProviderType providerType, Class<T> clazz) {
@@ -84,12 +79,18 @@ public class ARAccount {
         return this.email;
     }
 
-    public RoleType getRole(){
+    public RoleType getRole() {
         return this.role;
     }
 
     public List<EAuthProvider> getAuthProviders() {
         return List.copyOf(this.authProviders);
+    }
+
+    public void verify() {
+        if (this.isVerified == true)
+            throw new AlreadyVerifiedException();
+        this.isVerified = true;
     }
 
     public boolean getIsVerified() {
