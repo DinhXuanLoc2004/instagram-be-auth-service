@@ -15,9 +15,6 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-        config-server:
-            condition: service_healthy
-            restart: true
         auth-db:
             condition: service_healthy
             restart: true

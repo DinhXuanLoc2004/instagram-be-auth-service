@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.example.auth_service.domain.aggregate_roots.ARAccount;
+import com.example.auth_service.domain.aggregate_roots.AccountAR;
 import com.example.auth_service.domain.entities.entity_auth_provider.abstraction.EAuthProvider;
 import com.example.auth_service.domain.entities.entity_auth_provider.extensions.UserPassAuthProvider;
 import com.example.auth_service.domain.entities.entity_auth_provider.extensions.oauth2.FacebookAuthProvider;
@@ -13,7 +13,7 @@ import com.example.auth_service.domain.types.RoleType;
 import com.example.auth_service.infrastructure.persistences.repositories.projections.interfaces.IARAccountProjection;
 
 public class ARAccountMapper {
-    public static Optional<ARAccount> toARAccount(List<IARAccountProjection> rows) {
+    public static Optional<AccountAR> toARAccount(List<IARAccountProjection> rows) {
         if (rows.isEmpty() || rows == null)
             return Optional.empty();
         IARAccountProjection fist = rows.getFirst();
@@ -35,7 +35,7 @@ public class ARAccountMapper {
 
         final RoleType role = fist.getRole() == RoleType.USER.toString() ? RoleType.USER : RoleType.ADMIN;
 
-        ARAccount arAccount = ARAccount.toAggregate(
+        AccountAR arAccount = AccountAR.toAggregate(
                 UUID.nameUUIDFromBytes(fist.getAccountId()),
                 fist.getEmail(),
                 role,

@@ -12,21 +12,21 @@ import com.example.auth_service.domain.types.ProviderType;
 import com.example.auth_service.domain.types.RoleType;
 import com.example.auth_service.domain.value_objects.VOEmail;
 
-public class ARAccount {
+public class AccountAR {
     private final UUID id;
     private VOEmail email;
     private final RoleType role;
     private boolean isVerified;
     private List<EAuthProvider> authProviders = new ArrayList<>();
 
-    private ARAccount(VOEmail email, RoleType role, EAuthProvider authProvider) {
+    private AccountAR(VOEmail email, RoleType role, EAuthProvider authProvider) {
         this.id = UUID.randomUUID();
         this.email = email;
         this.role = role;
         this.addAuthProvider(authProvider);
     }
 
-    private ARAccount(UUID id, String email, RoleType role, boolean isVerified, List<EAuthProvider> authProviders) {
+    private AccountAR(UUID id, String email, RoleType role, boolean isVerified ,List<EAuthProvider> authProviders) {
         this.id = id;
         this.email = VOEmail.create(email);
         this.isVerified = isVerified;
@@ -34,14 +34,14 @@ public class ARAccount {
         this.role = role;
     }
 
-    public static ARAccount toAggregate(UUID id, String email, RoleType role, boolean isVerified,
+    public static AccountAR toAggregate(UUID id, String email, RoleType role, boolean isVerified,
             List<EAuthProvider> authProviders) {
-        return new ARAccount(id, email, role, isVerified, authProviders);
+        return new AccountAR(id, email, role, isVerified, authProviders);
     }
 
-    public static ARAccount create(String email, RoleType role, EAuthProvider AuthProvider) {
+    public static AccountAR create(String email, RoleType role, EAuthProvider AuthProvider) {
         VOEmail voEmail = VOEmail.create(email);
-        return new ARAccount(voEmail, role, AuthProvider);
+        return new AccountAR(voEmail, role, AuthProvider);
     }
 
     public <T extends EAuthProvider> T getAuthProvider(ProviderType providerType, Class<T> clazz) {

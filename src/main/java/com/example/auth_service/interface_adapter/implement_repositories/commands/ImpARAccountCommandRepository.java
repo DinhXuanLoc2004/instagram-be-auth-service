@@ -7,8 +7,8 @@ import java.util.UUID;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.auth_service.application.interface_repositories.commands.IARAccountCommandRepositoty;
-import com.example.auth_service.domain.aggregate_roots.ARAccount;
+import com.example.auth_service.application.interface_repositories.commands.IAccountARCommandRepo;
+import com.example.auth_service.domain.aggregate_roots.AccountAR;
 import com.example.auth_service.domain.entities.entity_auth_provider.abstraction.EAuthProvider;
 import com.example.auth_service.domain.entities.entity_auth_provider.extensions.UserPassAuthProvider;
 import com.example.auth_service.domain.entities.entity_auth_provider.extensions.oauth2.FacebookAuthProvider;
@@ -30,7 +30,7 @@ import lombok.AllArgsConstructor;
 @Component
 @Transactional
 @AllArgsConstructor
-public class ImpARAccountCommandRepository implements IARAccountCommandRepositoty {
+public class ImpARAccountCommandRepository implements IAccountARCommandRepo {
 
     private final RAccountCommand accountCommand;
     private final RAuthProviderCommand authProviderCommand;
@@ -39,7 +39,7 @@ public class ImpARAccountCommandRepository implements IARAccountCommandRepositot
     private final RAccountQuery accountQuery;
 
     @Override
-    public void save(ARAccount aggregate) {
+    public void save(AccountAR aggregate) {
         ORMAccount account = new ORMAccount(aggregate.getId(), aggregate.getEmail().getValue(),
                 aggregate.getRole(), aggregate.getIsVerified());
         accountCommand.save(account);
@@ -78,13 +78,13 @@ public class ImpARAccountCommandRepository implements IARAccountCommandRepositot
     }
 
     @Override
-    public Optional<ARAccount> findARAccontById(UUID id) {
+    public Optional<AccountAR> findAccountARById(UUID id) {
         List<IARAccountProjection> accountProjections = accountQuery.findARAccountById(id);
         return ARAccountMapper.toARAccount(accountProjections);
     }
 
     @Override
-    public Optional<ARAccount> findARAccountByEmail(VOEmail email) {
+    public Optional<AccountAR> findAccountARByEmail(VOEmail email) {
         List<IARAccountProjection> accountProjections = accountQuery.findARAccountByEmail(email.getValue());
         return ARAccountMapper.toARAccount(accountProjections);
     }
